@@ -16,21 +16,21 @@ class PriceServer {
     let defaultServerString: String = "h6zwwkcivy2hjys6xpinlnz2f74dsmvltzsd4xb42vinhlcaoe7fdeqd.onion"
     let defaultServerIndex: Int = 0
     let defaultServers: [String] = ["h6zwwkcivy2hjys6xpinlnz2f74dsmvltzsd4xb42vinhlcaoe7fdeqd.onion"]
-    let exchangeList: [String] = ["okcoin", "liquid", "zaif", "coinbasepro", "upbit", "bitstamp", "coinbase", "coincheck", "ftx", "kraken", "bitflyer", "bitbank", "bithumb", "coinone", "indodax", "binance", "bittrex", "bitfinex", "gemini", "indoex"]
-    let defaultExchange: String = "coinbase"
+    let exchangeList: [String] = ["Binance", "Bitbank", "Bitfinex", "Bithumb", "Bitstamp", "Bittrex", "CEX", "Coinbase", "Coinbase Pro", "Coincheck", "Coinone", "FTX", "Gemini", "Indodax", "Kraken", "Liquid", "OKCoin", "Upbit", "Zaif", "bitFlyer"]
+    let defaultExchange: String = "Coinbase"
     let localeToExchange: [String:[String]] = [
-        "USD": ["Average", "bitflyer", "bittrex", "ftx", "gemini", "liquid", "coinbase", "coinbasepro", "okcoin", "bitfinex", "kraken", "bitstamp"],
-        "GBP": ["Average", "binance", "bitfinex", "coinbase", "coinbasepro", "bitstamp", "kraken", "bitstamp", "cex"],
-        "EUR": ["Average", "kraken", "coinbase", "liquid", "bitflyer", "bittrex", "coinbasepro", "bitstamp", "bitfinex", "indoex"],
-        "JPY": ["Average", "bitflyer", "coinbase", "liquid", "coincheck", "bitbank", "zaif"],
-        "AUD": ["binance", "coinbase", "liquid","kraken"],
-        "BRL": ["coinbase", "ftx"],
-        "KRW": ["bithumb", "coinbase", "coinone", "upbit"],
-        "ZAR": ["binance", "coinbase"],
-        "TRY": ["binance", "coinbase"],
-        "INR": ["coinbase"],
-        "CAD": ["coinbase", "kraken"],
-        "IDR": ["coinbase", "indodax"]
+        "USD": ["Average", "Bitfinex", "bitFlyer", "Bitstamp", "Bittrex", "Coinbase", "Coinbase Pro", "FTX", "Gemini", "Kraken", "Liquid", "OKCoin"],
+        "GBP": ["Average", "Binance", "Bitfinex", "Bitstamp", "Bitstamp", "CEX", "Coinbase", "Coinbase Pro", "Kraken"],
+        "EUR": ["Average", "Bitfinex", "bitFlyer", "Bitstamp", "Bittrex", "Coinbase", "Coinbase Pro", "Kraken", "Liquid"],
+        "JPY": ["Average", "Bitbank", "bitFlyer", "Coinbase", "Coincheck", "Liquid", "Zaif"],
+        "AUD": ["Binance", "Coinbase", "Kraken", "Liquid"],
+        "BRL": ["Coinbase", "FTX"],
+        "KRW": ["Bithumb", "Coinbase", "Coinone", "Upbit"],
+        "ZAR": ["Binance", "Coinbase"],
+        "TRY": ["Binance", "Coinbase"],
+        "INR": ["Coinbase"],
+        "CAD": ["Coinbase", "Kraken"],
+        "IDR": ["Coinbase", "Indodax"]
     ]
     
     func getServers() -> [String] {
@@ -107,7 +107,7 @@ class PriceServer {
         if self.getCurrentExchange() == "Average" {
             return "http://" + self.getCurrentServerString() + "/now/" + localeConfig.getSavedLocale()
         } else {
-            return "http://" + self.getCurrentServerString() + "/now/" + localeConfig.getSavedLocale() + "/" + self.getCurrentExchange().lowercased()
+            return "http://" + self.getCurrentServerString() + "/now/" + localeConfig.getSavedLocale() + "/" + self.getCurrentExchange().replacingOccurrences(of: " ", with: "").lowercased()
         }
     }
     
