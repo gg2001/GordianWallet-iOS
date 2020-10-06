@@ -45,7 +45,7 @@ class LocaleConfig {
         "JP": "JPY",
         "ID": "IDR"
     ]
-    let currencyList: [String] = ["USD","GBP","JPY","AUD","USDT","BRL","EUR","KRW","ZAR","TRY","USDC","INR","CAD","IDR"]
+    let currencyList: [String] = ["USD","GBP","JPY","AUD","BRL","EUR","KRW","ZAR","TRY","INR","CAD","IDR"]
     let currencySymbolDict: [String: String] = [
         "USD": "$",
         "CAD": "C$",
