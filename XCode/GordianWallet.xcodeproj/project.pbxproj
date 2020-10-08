@@ -10,6 +10,7 @@
 		C65439562528024A00566C16 /* LocaleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65439552528024900566C16 /* LocaleConfig.swift */; };
 		C65439582528025400566C16 /* PriceServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65439572528025300566C16 /* PriceServer.swift */; };
 		C654395A252802B700566C16 /* PriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6543959252802B700566C16 /* PriceViewController.swift */; };
+		C69EFDFA252EAD3A00FEE7E2 /* ExportTransactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69EFDF9252EAD3A00FEE7E2 /* ExportTransactions.swift */; };
 		D00016B3245ABFFA0091F7CF /* Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00016B2245ABFFA0091F7CF /* Import.swift */; };
 		D00016B5245BBB5C0091F7CF /* SeedStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00016B4245BBB5C0091F7CF /* SeedStruct.swift */; };
 		D00016B9245BD89C0091F7CF /* SeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00016B8245BD89C0091F7CF /* SeedParser.swift */; };
@@ -219,6 +220,7 @@
 		C65439552528024900566C16 /* LocaleConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocaleConfig.swift; sourceTree = "<group>"; };
 		C65439572528025300566C16 /* PriceServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceServer.swift; sourceTree = "<group>"; };
 		C6543959252802B700566C16 /* PriceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceViewController.swift; sourceTree = "<group>"; };
+		C69EFDF9252EAD3A00FEE7E2 /* ExportTransactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTransactions.swift; sourceTree = "<group>"; };
 		D00016B2245ABFFA0091F7CF /* Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Import.swift; sourceTree = "<group>"; };
 		D00016B4245BBB5C0091F7CF /* SeedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedStruct.swift; sourceTree = "<group>"; };
 		D00016B8245BD89C0091F7CF /* SeedParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedParser.swift; sourceTree = "<group>"; };
@@ -737,6 +739,7 @@
 				C65439572528025300566C16 /* PriceServer.swift */,
 				C65439552528024900566C16 /* LocaleConfig.swift */,
 				D09D72C623F0F3C000847DC8 /* Entities.swift */,
+				C69EFDF9252EAD3A00FEE7E2 /* ExportTransactions.swift */,
 				D09D72C723F0F3C000847DC8 /* Reducer.swift */,
 				D09D72C823F0F3C000847DC8 /* CoreDataService.swift */,
 				D09D72C923F0F3C000847DC8 /* FirstTime.swift */,
@@ -1210,6 +1213,7 @@
 				D09D731023F0F3C000847DC8 /* NodeLogic.swift in Sources */,
 				D09D731F23F0F3C000847DC8 /* WalletsViewController.swift in Sources */,
 				D09D733A23F0F3C000847DC8 /* Entities.swift in Sources */,
+				C69EFDFA252EAD3A00FEE7E2 /* ExportTransactions.swift in Sources */,
 				D0139F5724208A7A00EF956E /* ConfirmRecoveryViewController.swift in Sources */,
 				D00016B3245ABFFA0091F7CF /* Import.swift in Sources */,
 				D09D736023F0F3C000847DC8 /* KeyPad.swift in Sources */,

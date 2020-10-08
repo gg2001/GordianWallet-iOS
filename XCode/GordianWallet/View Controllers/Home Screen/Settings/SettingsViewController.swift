@@ -78,11 +78,16 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return settingsCell
             
         case 3:
+            thumbnail.image = UIImage(systemName: "desktopcomputer")
+            label.text = "Export Transactions"
+            return settingsCell
+        
+        case 4:
             thumbnail.image = UIImage(systemName: "exclamationmark.triangle")
             label.text = "Delete Core Data"
             return settingsCell
             
-        case 4:
+        case 5:
             thumbnail.image = UIImage(systemName: "exclamationmark.triangle")
             label.text = "Delete Keychain Items"
             return settingsCell
@@ -98,7 +103,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 5
+        return 6
         
     }
     
@@ -164,9 +169,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             
         case 3:
         
+            exportTxs()
+        
+        case 4:
+        
             resetApp()
             
-        case 4:
+        case 5:
             
             promptToDeleteKeychain()
             
@@ -176,6 +185,23 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             
         }
         
+    }
+    
+    func exportTxs() {
+        let exportTransactions = ExportTransactions()
+        let csvString: String = exportTransactions.createCSV()
+        let fileManager = FileManager.default
+        do {
+            let path = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+            let fileURL = path.appendingPathComponent("gordian.csv")
+            try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
+            let objectsToShare = [fileURL]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+            self.present(activityVC, animated: true, completion: nil)
+        } catch {
+            print("error creating file")
+        }
     }
     
     private func promptToDeleteKeychain() {

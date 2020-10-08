@@ -45,6 +45,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     var connectingView = ConnectingView()
     var nodes = [[String:Any]]()
     var transactionArray = [[String:Any]]()
+    static var returnTransactionArray = [[String:Any]]()
     var coldcard = [String:Any]()
     let localeConfig = LocaleConfig()
     let priceServer = PriceServer()
@@ -1485,6 +1486,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
                 DispatchQueue.main.async {
                     vc.torConnected = true
                     vc.transactionArray = transactions!.reversed()
+                    MainMenuViewController.returnTransactionArray = transactions!
                     vc.transactionsSectionLoaded = true
                     vc.mainMenu.reloadData()
                     vc.loadNodeData()

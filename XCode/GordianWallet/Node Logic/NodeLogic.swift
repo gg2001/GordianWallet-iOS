@@ -397,8 +397,10 @@ class NodeLogic {
                     var isCold = false
                     let address = transaction["address"] as? String ?? ""
                     let amount = transaction["amount"] as? Double ?? 0.0
+                    let fee = transaction["fee"] as? Double ?? 0.0
                     if amount.avoidNotation != "" {
                         let amountString = amount.avoidNotation
+                        let feeString = fee.avoidNotation
                         let confsCheck = transaction["confirmations"] as? Int ?? 0
                         let confirmations = "\(confsCheck)"
                         if let replaced_by_txid_check = transaction["replaced_by_txid"] as? String {
@@ -439,6 +441,7 @@ class NodeLogic {
                                                  "txID": txID,
                                                  "replacedBy": replaced_by_txid,
                                                  "involvesWatchonly":isCold,
+                                                 "fee": feeString,
                                                  "selfTransfer":false,
                                                  "remove":false])
                         
