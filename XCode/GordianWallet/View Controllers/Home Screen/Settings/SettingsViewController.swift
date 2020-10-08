@@ -13,6 +13,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var doneBlock : ((Bool) -> Void)?
     let ud = UserDefaults.standard
     @IBOutlet var settingsTable: UITableView!
+    var exportPressed: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,9 +79,25 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return settingsCell
             
         case 3:
-            thumbnail.image = UIImage(systemName: "desktopcomputer")
-            label.text = "Export Transactions"
-            return settingsCell
+            if (exportPressed) {
+                let spinnerCell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
+                let spinnerLabel = spinnerCell.viewWithTag(1) as! UILabel
+                spinnerLabel.textColor = .lightGray
+                let spinnerThumbnail = spinnerCell.viewWithTag(2) as! UIImageView
+                spinnerCell.selectionStyle = .none
+                let spinner = UIActivityIndicatorView()
+                spinner.frame = CGRect(x: settingsTable.frame.maxX - 80, y: (spinnerCell.frame.height / 2) - 10, width: 20, height: 20)
+                spinnerCell.addSubview(spinner)
+                spinner.startAnimating()
+                
+                spinnerThumbnail.image = UIImage(systemName: "desktopcomputer")
+                spinnerLabel.text = "Export Transactions"
+                return spinnerCell
+            } else {
+                thumbnail.image = UIImage(systemName: "desktopcomputer")
+                label.text = "Export Transactions"
+                return settingsCell
+            }
         
         case 4:
             thumbnail.image = UIImage(systemName: "exclamationmark.triangle")
@@ -189,6 +206,68 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func exportTxs() {
         let exportTransactions = ExportTransactions()
+        if (exportTransactions.check()) {
+            DispatchQueue.main.async { [unowned vc = self] in
+                let alert = UIAlertController(title: "Transactions unavailable", message: "Please wait until transactions have loaded", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                vc.present(alert, animated: true, completion: nil)
+            }
+        } else {
+            if (exportPressed == false) {
+                exportPressed = true
+                settingsTable.reloadData()
+                let group = DispatchGroup()
+                group.enter()
+                let fx = FiatConverter.sharedInstance
+                fx.getFxRate() { (fxRate) in
+                    self.exportPressed = false
+                    group.leave()
+                }
+                group.notify(queue: .main) {
+                    DispatchQueue.main.async { [unowned vc = self] in
+                        self.settingsTable.reloadData()
+                        let alert = UIAlertController(title: "Export Transactions", message: "Export to CSV or Beancount?", preferredStyle: .actionSheet)
+                        alert.addAction(UIAlertAction(title: "CSV", style: .default, handler: { [unowned vc = self] action in
+                            let csvString: String = exportTransactions.createCSV()
+                            let fileManager = FileManager.default
+                            do {
+                                let path = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+                                let fileURL = path.appendingPathComponent("gordian.csv")
+                                try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
+                                let objectsToShare = [fileURL]
+                                let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+                                vc.present(activityVC, animated: true, completion: nil)
+                            } catch {
+                                print("error creating file")
+                            }
+                        }))
+                        alert.addAction(UIAlertAction(title: "Beancount", style: .default, handler: { [unowned vc = self] action in
+                            let beancountString: String = exportTransactions.createBeancount()
+                            let fileManager = FileManager.default
+                            do {
+                                let path = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+                                let fileURL = path.appendingPathComponent("gordian.beancount")
+                                try beancountString.write(to: fileURL, atomically: true, encoding: .utf8)
+                                let objectsToShare = [fileURL]
+                                let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+                                vc.present(activityVC, animated: true, completion: nil)
+                            } catch {
+                                print("error creating file")
+                            }
+                        }))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in }))
+                        #if !targetEnvironment(macCatalyst)
+                            alert.popoverPresentationController?.sourceView = vc.settingsTable
+                        #endif
+                        vc.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+        /*
+        let exportTransactions = ExportTransactions()
         let csvString: String = exportTransactions.createCSV()
         let fileManager = FileManager.default
         do {
@@ -202,6 +281,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         } catch {
             print("error creating file")
         }
+        */
     }
     
     private func promptToDeleteKeychain() {
